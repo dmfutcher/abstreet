@@ -102,7 +102,7 @@ impl DirectedRoadID {
                 found.push(l);
             }
         }
-        if found.len() != 1 {
+        if found.len() == 0 {
             panic!("must_get_sidewalk broken by {}", self);
         }
         found[0]
