@@ -150,6 +150,11 @@ pub fn all_walking_costs_from(
             WalkingNode::SidewalkEndpoint(r, is_dst_i) => (r, is_dst_i),
             _ => unreachable!(),
         };
+
+        let sidewalk = r.get_sidewalk(map);
+        if sidewalk.is_none() {
+            continue;
+        }
         let lane = map.get_l(r.must_get_sidewalk(map));
         // Cross the lane
         if opts.allow_shoulders || lane.lane_type != LaneType::Shoulder {

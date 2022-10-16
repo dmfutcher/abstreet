@@ -102,9 +102,25 @@ impl DirectedRoadID {
             }
         }
         if found.len() != 1 {
-            panic!("must_get_sidewalk broken by {}", self);
+            let road = map.get_r(self.road);
+            panic!("must_get_sidewalk broken by {}, {:?}", self, road.osm_tags);
         }
         found[0]
+    }
+
+    pub fn get_sidewalk(self, map: &Map) -> Option<LaneID> {
+        let mut found = Vec::new();
+        for (l, lt) in map.get_r(self.road).children(self.dir) {
+            if lt.is_walkable() {
+                found.push(l);
+            }
+        }
+        if found.len() != 1 {
+            // let road = map.get_r(self.road);
+            // panic!("must_get_sidewalk broken by {}, {:?}", self, road.osm_tags);
+            return None
+        }
+        Some(found[0])
     }
 
     /// Does this directed road have any lanes of a certain type?
